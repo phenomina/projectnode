@@ -1,0 +1,12 @@
+
+<h1>Movie</h1>
+{{#if movie}}
+
+	<div>Title: {{movie.title}}</div>
+	<div>Year: {{movie.year}}</div>
+	<div>Rated:{{#each rating}}
+	{{rating}}
+	{{/each}}</div>
+
+
+{{/if}}

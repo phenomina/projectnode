@@ -1,0 +1,11 @@
+<h1>My account</h1>
+{{#each user}}
+<form action="/delete_rating" method="post">
+   <div><a href="/movies/{{id}}">Title: {{title}}</a></div>
+   <div>Rated:{{rating}} by: {{userName}}</div>
+   <input type="hidden"   name="userID" value={{userID}}>
+   <input type="hidden"   name="movieID" value={{id}}>
+   <div><input type="submit" value="Delete!"></div>
+   <br>
+</form>
+{{/each}}

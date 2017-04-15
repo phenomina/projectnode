@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+ <head>
+ <title>Movie Friends</title>
+ </head>
+ <body>
+ <ul>
+ <li><a href="/">Start Page</a></li>
+ <li><a href="/about.hbs">About Page</a></li>
+ <li><a href="/movies.hbs">Movies Page</a></li>
+ <li><a href="/register.hbs">Register</a></li>
+ <li><a href="/logIn.hbs">Log In</a></li>
+
+ {{#if session}}
+ <li><a href="/users.hbs">Users</a></li>
+ <li><a href="/rating.hbs">Rate Movie</a></li>
+  <li><a href="/admin.hbs">Administrator</a></li>
+ <li><a href="/user_account.hbs">My account</a></li>
+ <li><a href="/logout">Logout</a></li>
+ {{/if}}
+ </ul>
+ {{{body}}}
+ </body>
+</html>
