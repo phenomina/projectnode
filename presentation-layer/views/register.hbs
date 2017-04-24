@@ -1,0 +1,16 @@
+<h1>Register</h1>
+{{#if errors.length}}
+	<p>Registration failed because:</p>
+	<ul>
+		{{#each errors}}
+			<li>{{this}}</li>
+		{{/each}}
+	</ul>
+{{/if}}
+<form action="/register" method="post">
+	<div>Username:  <input type="text" name="username" value="{{user.name}}" ></div>
+	<div>Password: <input type="password"   name="password" value="" ></div>
+
+  <br/>
+	<div><input type="submit" value="Register!" onClick="clearField()"></div>
+</form>
