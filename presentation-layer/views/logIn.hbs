@@ -1,9 +1,15 @@
 <h1>Log In</h1>
-{{#if message}}
-{{message}}
+{{#if errors.length}}
+	<p>Registration failed because:</p>
+	<ul>
+		{{#each errors}}
+			<li>{{this}}</li>
+		{{/each}}
+	</ul>
 {{/if}}
+
 <form action="/logIn" method="post">
-	<div>Username:  <input type="text" name="username" value="" required></div>
+	<div>Username:  <input type="text" name="username" value="{{user}}" required></div>
 	<div>Password: <input type="password"   name="password" value="" required></div>
   <br/>
 	<div><input type="submit" value="Log In!"></div>

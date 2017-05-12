@@ -138,7 +138,7 @@ app.post("/movies/:id", function(request, response) {
 
     db.get("SELECT userId FROM users WHERE userName=?", request.session.user.id, function(err, row) {
 
-        db.run("DELETE FROM ratings WHERE ratings.movieId=? AND ratings.userId=?", id, row.userId)
+        db.run("DELETE FROM ratings WHERE ratings.movieId=? AND ratings.userId=?", id, row[0].userId)
 
         db.all("SELECT movieId FROM ratings WHERE ratings.movieId=?", id, function(err, row1) {
 

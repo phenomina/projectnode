@@ -1,8 +1,15 @@
 <h1>Add Rating</h1>
 <form action="/rating" method="post">
-	{{message}}
-	<div>Title:  <input type="text" name="title" ></div>
-	<div>Year: <input type="number"   name="year"></div>
-	<div>Rating: <input type="number"   name="newRate"></div>
+	{{#if errors.length}}
+		<p>Rating failed because:</p>
+		<ul>
+			{{#each errors}}
+				<li>{{this}}</li>
+			{{/each}}
+		</ul>
+	{{/if}}
+	<div>Title:  <input type="text" name="title" value="{{movieRate.title}}" required></div>
+	<div>Year: <input type="number"   name="year" value="{{movieRate.year}}" required></div>
+	<div>Rating: <input type="number"   name="newRate" value="{{movieRate.rating}}" required></div>
 	<div>      <input type="submit" value="Create!"></div>
 </form>

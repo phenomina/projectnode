@@ -8,8 +8,8 @@
 	</ul>
 {{/if}}
 <form action="/register" method="post">
-	<div>Username:  <input type="text" name="username" value="{{user.name}}" ></div>
-	<div>Password: <input type="password"   name="password" value="" ></div>
+	<div>Username:  <input type="text" name="username" value="{{user.name}}" required></div>
+	<div>Password: <input type="password"   name="password" value="" required ></div>
 
   <br/>
 	<div><input type="submit" value="Register!" onClick="clearField()"></div>

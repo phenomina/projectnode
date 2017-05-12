@@ -1,8 +1,9 @@
 
 <h1>This is the Movies page!</h1>
-
+<div vocab="http://schema.org/" typeof="Movie">
 <ul>
   {{#each movies}}
-  <li><a href="/movies/{{id}}">{{title}}</a></li>
+  <li property="name"><a href="/movies/{{id}}">{{title}}</a></li>
   {{/each}}
 </ul>
+</div>

@@ -1,12 +1,20 @@
 
 <h1>Movie</h1>
 {{#if movie}}
-
-	<div>Title: {{movie.title}}</div>
+<div vocab="http://schema.org/" typeof="Movie">
+	<div><img property ="image" src="https://www.octaneseating.com/wp-content/uploads/2016/08/movie-dog-large.jpg" alt="Smiley face" height="100" width="100"/></div>
+	<div property="name">Title: {{movie.title}}</div>
 	<div>Year: {{movie.year}}</div>
+	<div >Runtime: {{movie.runtime}}</div>
+	<div property="director">Directors: {{movie.director}}</div>
+	<div property="actor">Actors: {{movie.actor}}</div>
+	<div property="about">Abstract: {{movie.abstract}}</div>
+
 	<div>Rated:{{#each rating}}
 	{{rating}}
-	{{/each}}</div>
 
+
+	{{/each}}</div>
+</div>
 
 {{/if}}

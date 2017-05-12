@@ -74,23 +74,23 @@ db.serialize(function() {
 
     // Populating the movies database from the array
 
-    db.run("CREATE TABLE if not exists movies (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, year INTEGER)");
-    var stmt = db.prepare("INSERT INTO movies VALUES (?,?,?)");
-    for (var i = 0; i < movies.length; i++) {
-        if (movies[i].id && movies[i].title && movies[i].year)
-            stmt.run(movies[i].id, movies[i].title, movies[i].year);
-    }
-    stmt.finalize();
+    db.run("CREATE TABLE if not exists movies (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, year INTEGER, runtime INTEGER, director TEXT, actor TEXT, abstract TEXT)");
+    // var stmt = db.prepare("INSERT INTO movies VALUES (?,?,?)");
+    // for (var i = 0; i < movies.length; i++) {
+    //     if (movies[i].id && movies[i].title && movies[i].year)
+    //         stmt.run(movies[i].id, movies[i].title, movies[i].year);
+    // }
+    // stmt.finalize();
 
     // Populating the ratings database from the array
 
     db.run("CREATE TABLE if not exists ratings (movieId INTEGER,userId INTEGER,rating INTEGER)");
-    var fill = db.prepare("INSERT INTO ratings VALUES (?,?,?)");
-    for (var i = 0; i < ratings.length; i++) {
-        if (ratings[i].movieId && ratings[i].userId && ratings[i].rating)
-            fill.run(ratings[i].movieId, ratings[i].userId, ratings[i].rating);
-    }
-    fill.finalize();
+    // var fill = db.prepare("INSERT INTO ratings VALUES (?,?,?)");
+    // for (var i = 0; i < ratings.length; i++) {
+    //     if (ratings[i].movieId && ratings[i].userId && ratings[i].rating)
+    //         fill.run(ratings[i].movieId, ratings[i].userId, ratings[i].rating);
+    // }
+    // fill.finalize();
 
     //creating the users table
     db.run("CREATE TABLE if not exists users (userId INTEGER PRIMARY KEY AUTOINCREMENT, userName TEXT,password TEXT)");
