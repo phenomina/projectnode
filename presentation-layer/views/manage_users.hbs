@@ -1,0 +1,22 @@
+<h1>Manage User Roles</h1>
+<table>
+  <tr>
+    <th>Username</th>
+    <th>Current Role</th>
+    <th>New Role</th>
+    <th></th>
+  </tr>
+{{#each user}}
+
+<form action="/edit_role" method="post">
+  <tr>
+    <td>{{userName}}</a></td>
+    <td>{{roleName}}</td>
+    <td><input type="text" name="newRole" value="" required></td>
+    <td><input type="submit" value="Edit"></td>
+  </tr>
+  <input type="hidden"   name="userID" value={{userID}}>
+</form>
+
+{{/each}}
+</table>

@@ -1,9 +1,5 @@
-<h1>My account</h1>
-{{#each user}}
-<form action="/movies/{{id}}" method="post">
-   <div><a href="/movies/{{id}}">Title: {{title}}</a></div>
-   <div>Rated:{{rating}}</div>
-   <div><input type="submit" value="Delete!"></div>
-   <br>
-</form>
-{{/each}}
+<h1>Welcome to your Account</h1>
+
+<div><a href="/my_movies.hbs">My Movies</a></div>
+<div><a href="/my_profile.hbs">My Profile</a></div>
+<div><a href="/my_friends.hbs">My Friends</a></div>

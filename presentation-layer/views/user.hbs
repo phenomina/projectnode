@@ -1,6 +1,32 @@
 
 <h1>User</h1>
+{{#if check}}
+{{#if profile}}
+<div>
+	<p><strong>Profile Information</strong></p>
+	First name:{{profile.fName}}
+	Last name:{{profile.lName}}
+	Gender:{{profile.gender}}
+</div>
+{{/if}}
+{{else}}
+<p><strong>Profile Information is Private</strong></p>
+{{/if}}
+<div><p><strong>Movies rated</strong></p>
 {{#each user}}
 	<div><a href="/movies/{{id}}">Title: {{title}}</a></div>
 	<div>Rated:{{rating}}</div>
+</br>
+</br>
+	</div>
 {{/each}}
+{{#if profile}}
+{{#if exists}}
+<p><strong>You guys are already friends</strong></p>
+{{else}}
+<form action="/add_friend" method="post">
+	 <input type="hidden" name="friendID" value={{profile.userId}}>
+	<input type="submit" value="Add Friend">
+</form>
+{{/if}}
+{{/if}}

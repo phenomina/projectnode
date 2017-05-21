@@ -65,3 +65,32 @@ exports.getById = function(id, callback) {
 exports.getAccount = function(user, callback) {
     userRepository.getAccount(user, callback)
 }
+
+exports.getUserRole = function(callback) {
+    userRepository.getUserRole(callback)
+}
+
+exports.delUserRole = function(movieDetails, callback) {
+    userRepository.delUserRole(movieDetails, callback)
+}
+exports.getProfile = function(username, callback) {
+    userRepository.getProfile(username, callback)
+}
+
+exports.updateProfile = function(userDet, callback) {
+    userRepository.updateProfile(userDet, callback)
+}
+exports.addFriend = function(friendData, callback) {
+    userRepository.addFriend(friendData, callback)
+}
+
+exports.getFriends = function(user, callback) {
+    userRepository.getFriends(user, callback)
+}
+
+exports.checkFriends = function(fId, callback) {
+    userRepository.checkFriends(fId, callback)
+}
+exports.createFoaF = function(user, callback) {
+    userRepository.createFoaF(user, callback)
+}

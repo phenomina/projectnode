@@ -9,8 +9,10 @@ exports.getErrors = function(user, callback) {
     var errors = []
 
     if (!user.name) {
-
         errors.push("The Username is missing")
+        callback(errors)
+    } else if (user.pass1 != user.pass2) {
+        errors.push("Passwords do not match!!")
         callback(errors)
     } else {
         userRepository.getByName(user, function(length) {
@@ -22,7 +24,7 @@ exports.getErrors = function(user, callback) {
             }
         })
     }
-    callback([])
+    callback(errors)
 }
 
 

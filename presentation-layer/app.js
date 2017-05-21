@@ -19,6 +19,9 @@ app.use(session({
 
 app.use(function(request, response, next) {
     response.locals.session = request.session.newUser
+    // if (request.session.newUser.role = "admin") {
+    //     response.locals.admin = request.session.newUser.role
+    // }
     next()
 })
 
@@ -51,6 +54,8 @@ app.get("/about.hbs", function(request, response) {
         bite: request.session.user
     })
 })
+
+
 
 
 /*.......GET MOVIES PAGE.............*/
@@ -107,24 +112,134 @@ app.get("/users.hbs", function(request, response) {
 
 app.get("/users/:userId", function(request, response) {
     var id = parseInt(request.params.userId)
+    var fId = {
+        id: parseInt(request.params.userId),
+        user: request.session.newUser.userId
+    }
+    if (request.session.newUser.userId == id) {
+        response.redirect('/user_account.hbs')
+    } else {
 
-    userManager.getById(id, function(errors, user) {
+        userManager.getById(id, function(errors, user, profile) {
+            if (0 < errors.length) {
+                response.status(500).send('something is wrong')
+
+            } else {
+
+
+                userManager.checkFriends(fId, function(errors, friendExists) {
+                    if (profile.status == "public") {
+                        response.render('user', {
+                            user: user,
+                            profile: profile,
+                            check: true,
+                            exists: friendExists
+                        })
+                    } else {
+
+                        response.render('user', {
+                            user: user,
+                            profile: profile,
+                            exists: friendExists
+                        })
+                    }
+
+                })
+
+            }
+        })
+    }
+
+
+})
+//////// USER PAGE//AACOUNT//////////
+app.get("/user_account.hbs", function(request, response) {
+
+    response.render('user_account.hbs', {
+
+    })
+
+})
+
+//////GET USER PROFILE//////
+//
+// app.get("/my_profile.hbs", function(request, response) {
+//
+//     response.render('my_profile.hbs', {
+//         userName: request.session.newUser.name
+//
+//     })
+//
+// })
+
+///////////GET PROFILE/////////
+app.get("/my_profile.hbs", function(request, response) {
+    var username = {
+        name: request.session.newUser.name
+    }
+
+    userManager.getProfile(username, function(errors, row) {
+
         if (0 < errors.length) {
             response.status(500).send('something is wrong')
-
         } else {
-            response.render('user', {
-                user: user
+            response.render('my_profile.hbs', {
+                user: row,
+                userName: request.session.newUser.name
             })
         }
     })
 
+})
+
+///////UPDATE PROFILE
+app.post("/update_profile", function(request, response) {
+    var userDet = {
+        name: request.session.newUser.name,
+        fname: request.body.fname,
+        lname: request.body.lname,
+        gender: request.body.gender,
+        status: request.body.status
+    }
+
+    userManager.updateProfile(userDet, function(errors, row) {
+
+        if (0 < errors.length) {
+            response.status(500).send('something is wrong')
+        } else {
+            response.render('my_profile.hbs', {
+                user: row
+            })
+        }
+    })
 
 })
 
-/*.......GET USER ACCOUNT DETAILS.............*/
+//.............GET FOAF profile..............//
+app.get("/foaf_profile.hbs", function(request, response) {
+    response.render('foaf_profile.hbs')
+})
+//...........FOAF Profile.................//
+app.post("/foaf_profile", function(request, response) {
+    var user = {
+        id: request.session.newUser.userId,
+        name: request.session.newUser.name
+    }
 
-app.get("/user_account.hbs", function(request, response) {
+    userManager.createFoaF(user, function(foaf) {
+
+
+        response.render('foaf_profile.hbs', {
+            foaf: foaf
+        })
+
+    })
+
+})
+
+/*.......GET USER MOVIE DETAILS.............*/
+
+app.get("/my_movies.hbs", function(request, response) {
 
     var user = {
         name: request.session.newUser.name
@@ -135,7 +250,7 @@ app.get("/user_account.hbs", function(request, response) {
             response.status(500).send('something is wrong')
 
         } else {
-            response.render('user_account', {
+            response.render('my_movies.hbs', {
                 user: row
             })
         }
@@ -166,6 +281,41 @@ app.get("/manage_ratings.hbs", function(request, response) {
             response.render('manage_ratings', {
                 user: users
             })
+        }
+    })
+
+})
+
+// GET ADMIN MANAGE USERS PAGE/////////////
+
+app.get("/manage_users.hbs", function(request, response) {
+
+    userManager.getUserRole(function(errors, users) {
+        if (0 < errors.length) {
+            response.status(500).send('something is wrong')
+
+        } else {
+            response.render('manage_users', {
+                user: users
+            })
+        }
+    })
+
+})
+
+/////// DELETE USER ROLE (ADMIN)/////////////
+
+app.post("/edit_role", function(request, response) {
+    var userDetails = {
+        userId: request.body.userID,
+        role: request.body.newRole
+    }
+
+    userManager.delUserRole(userDetails, function(errors) {
+        if (0 < errors.length) {
+            response.status(500).send('something is wrong')
+        } else {
+            response.redirect('/manage_users.hbs')
         }
     })
 
@@ -257,7 +407,9 @@ app.post("/register", function(request, response) {
     var hashedPassword = passwordHash.generate(request.body.password)
     var user = {
         name: request.body.username,
-        password: hashedPassword
+        password: hashedPassword,
+        pass1: request.body.password,
+        pass2: request.body.confirmPassword
     }
 
     userManager.register(user, function(errors, user, authUser) {
@@ -321,6 +473,51 @@ app.get('/logout', function(request, response) {
     request.session.destroy(function() {});
     response.redirect('/logIn.hbs');
 })
+
+
+//.............GET FRIENDS PAGE..........................///
+app.get("/my_friends.hbs", function(request, response) {
+    var user = {
+        name: request.session.newUser.name
+    }
+
+    userManager.getFriends(user, function(errors, friends, friend2) {
+        if (0 < errors.length) {
+            response.status(500).send('something is wrong')
+        } else {
+
+            response.render('my_friends', {
+                friends: friends,
+                friend2: friend2
+            })
+        }
+    })
+
+
+})
+
+//...............ADD FRIENDS PAGE..........................///
+app.post("/add_friend", function(request, response) {
+    var friendData = {
+        friendID: request.body.friendID,
+        username: request.session.newUser.name
+    }
+
+
+    userManager.addFriend(friendData, function(errors) {
+        if (0 < errors.length) {
+            response.status(500).send('something is wrong')
+        } else {
+            response.redirect('/my_friends.hbs')
+        }
+    })
+
+
+})
+
+
+
+
 
 //////////////////////////////MY API??/////////////////////////////////////////////////
 

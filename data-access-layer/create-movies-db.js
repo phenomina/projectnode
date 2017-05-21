@@ -47,7 +47,7 @@ var roles = [{
     },
     {
 
-        title: "writer"
+        title: "read-writer"
     },
     {
 
@@ -93,9 +93,11 @@ db.serialize(function() {
     // fill.finalize();
 
     //creating the users table
-    db.run("CREATE TABLE if not exists users (userId INTEGER PRIMARY KEY AUTOINCREMENT, userName TEXT,password TEXT)");
+    db.run("CREATE TABLE if not exists users (userId INTEGER PRIMARY KEY AUTOINCREMENT, userName TEXT,password TEXT,fName TEXT,lName TEXT,gender TEXT,status TEXT)");
 
-    db.run("INSERT INTO users(userName,password) VALUES (?,?)", "admin", passwordHash.generate('1234'));
+    db.run("CREATE TABLE if not exists friends (id INTEGER PRIMARY KEY AUTOINCREMENT,userID INTEGER,friendID INTEGER)");
+
+    db.run("INSERT INTO users(userName,password,fName,lName,gender,status) VALUES (?,?,?,?,?,?)", "admin", passwordHash.generate('1234'), "Tom", "Cruise", "M", "private");
 
 
     //creating the roles table

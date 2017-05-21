@@ -1,0 +1,29 @@
+<h1>My Profile</h1>
+
+  {{#if user.fName}}
+
+  <div><p>First Name: {{user.fName}}</p>
+    <p>Last Name: {{user.lName}}</p>
+    <p>Gender: {{user.gender}}</p>
+  </div>
+  {{else}}
+  <div><p>Hey {{userName}} you can update your profile below,you only have username so far</p>
+<form action="/update_profile" method="post">
+	<div>First Name:  <input type="text" name="fname" required></div>
+	<div>Last Name:  <input type="text" name="lname" required></div>
+    <div>Gender:<br/>
+        <input type="radio" name="gender" value="male"> M <br/>
+        <input type="radio" name="gender" value="female"> F <br/>
+        <p>You can choose whether to make your profile public or private,</br>
+          A Public profile means other users see your basic information</p>
+          <input type="radio" name="status" value="private"> Private <br/>
+          <input type="radio" name="status" value="public"> Public <br/>
+</br>
+    </div>
+	<div><input type="submit" value="Update"></div>
+</form>
+
+{{/if}}
+<form action="/foaf_profile" method="post">
+  <input type="submit" value="Foaf Profile!!"></div>
+  </form>
